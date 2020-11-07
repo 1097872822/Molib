@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.ClientuserMapper" >
+  <resultMap id="BaseResultMap" type="com.example.demo.po.Clientuser" >
+    <id column="u_id" property="uId" jdbcType="INTEGER" />
+    <result column="u_no" property="uNo" jdbcType="INTEGER" />
+    <result column="u_name" property="uName" jdbcType="VARCHAR" />
+    <result column="u_pwd" property="uPwd" jdbcType="VARCHAR" />
+    <result column="u_qq" property="uQq" jdbcType="VARCHAR" />
+    <result column="u_borrow" property="uBorrow" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  
+  <sql id="Base_Column_List" >
+    u_id, u_no, u_name, u_pwd, u_qq, u_borrow
+  </sql>
+     <!-- 按照借书降序排列，并实现分页展示功能 -->
+     <select id="selectByLimit" resultMap="BaseResultMap"
+         parameterType="java.lang.Integer">
+         select
+        <if test="distinct" >
+      	distinct
+    	</if>
+    	<include refid="Base_Column_List" />
+    	from clientuser
+    	<if test="_parameter != null" >
+      	<include refid="Example_Where_Clause" />
+    	</if>
+         order by u_borrow DESC 
+     </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.example.demo.po.ClientuserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from clientuser
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from clientuser
+    where u_id = #{uId,jdbcType=INTEGER}
+  </select>
+    <select id="selectByUserno" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from clientuser
+    where u_no = #{uno,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from clientuser
+    where u_id = #{uId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.example.demo.po.ClientuserExample" >
+    delete from clientuser
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.demo.po.Clientuser" >
+    insert into clientuser (u_id, u_no, u_name, 
+      u_pwd, u_qq, u_borrow)
+    values (#{uId,jdbcType=INTEGER}, #{uNo,jdbcType=INTEGER}, #{uName,jdbcType=VARCHAR}, 
+      #{uPwd,jdbcType=VARCHAR}, #{uQq,jdbcType=VARCHAR}, #{uBorrow,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.demo.po.Clientuser" >
+    insert into clientuser
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uId != null" >
+        u_id,
+      </if>
+      <if test="uNo != null" >
+        u_no,
+      </if>
+      <if test="uName != null" >
+        u_name,
+      </if>
+      <if test="uPwd != null" >
+        u_pwd,
+      </if>
+      <if test="uQq != null" >
+        u_qq,
+      </if>
+      <if test="uBorrow != null" >
+        u_borrow,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uId != null" >
+        #{uId,jdbcType=INTEGER},
+      </if>
+      <if test="uNo != null" >
+        #{uNo,jdbcType=INTEGER},
+      </if>
+      <if test="uName != null" >
+        #{uName,jdbcType=VARCHAR},
+      </if>
+      <if test="uPwd != null" >
+        #{uPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="uQq != null" >
+        #{uQq,jdbcType=VARCHAR},
+      </if>
+      <if test="uBorrow != null" >
+        #{uBorrow,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.demo.po.ClientuserExample" resultType="java.lang.Integer" >
+    select count(*) from clientuser
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update clientuser
+    <set >
+      <if test="record.uId != null" >
+        u_id = #{record.uId,jdbcType=INTEGER},
+      </if>
+      <if test="record.uNo != null" >
+        u_no = #{record.uNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.uName != null" >
+        u_name = #{record.uName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uPwd != null" >
+        u_pwd = #{record.uPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uQq != null" >
+        u_qq = #{record.uQq,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uBorrow != null" >
+        u_borrow = #{record.uBorrow,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update clientuser
+    set u_id = #{record.uId,jdbcType=INTEGER},
+      u_no = #{record.uNo,jdbcType=INTEGER},
+      u_name = #{record.uName,jdbcType=VARCHAR},
+      u_pwd = #{record.uPwd,jdbcType=VARCHAR},
+      u_qq = #{record.uQq,jdbcType=VARCHAR},
+      u_borrow = #{record.uBorrow,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.po.Clientuser" >
+    update clientuser
+    <set >
+      <if test="uNo != null" >
+        u_no = #{uNo,jdbcType=INTEGER},
+      </if>
+      <if test="uName != null" >
+        u_name = #{uName,jdbcType=VARCHAR},
+      </if>
+      <if test="uPwd != null" >
+        u_pwd = #{uPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="uQq != null" >
+        u_qq = #{uQq,jdbcType=VARCHAR},
+      </if>
+      <if test="uBorrow != null" >
+        u_borrow = #{uBorrow,jdbcType=INTEGER},
+      </if>
+    </set>
+    where u_id = #{uId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.po.Clientuser" >
+    update clientuser
+    set u_no = #{uNo,jdbcType=INTEGER},
+      u_name = #{uName,jdbcType=VARCHAR},
+      u_pwd = #{uPwd,jdbcType=VARCHAR},
+      u_qq = #{uQq,jdbcType=VARCHAR},
+      u_borrow = #{uBorrow,jdbcType=INTEGER}
+    where u_id = #{uId,jdbcType=INTEGER}
+  </update>
+</mapper>

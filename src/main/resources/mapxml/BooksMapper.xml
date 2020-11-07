@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.BooksMapper" >
+  <resultMap id="BaseResultMap" type="com.example.demo.po.Books" >
+    <id column="book_id" property="bookId" jdbcType="INTEGER" />
+    <result column="book_name" property="bookName" jdbcType="VARCHAR" />
+    <result column="book_author" property="bookAuthor" jdbcType="VARCHAR" />
+    <result column="book_press" property="bookPress" jdbcType="VARCHAR" />
+    <result column="book_img" property="bookImg" jdbcType="VARCHAR" />
+    <result column="ca_id" property="caId" jdbcType="INTEGER" />
+    <result column="ca_name" property="caName" jdbcType="VARCHAR" />
+    <result column="book_number" property="bookNumber" jdbcType="INTEGER" />
+    <result column="book_brief" property="bookBrief" jdbcType="VARCHAR" />
+    <result column="book_introduce" property="bookIntroduce" jdbcType="VARCHAR" />
+    <result column="collect_number" property="collectNumber" jdbcType="INTEGER" />
+    <result column="borrow_number" property="borrowNumber" jdbcType="INTEGER" />
+    <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    book_id, book_name, book_author, book_press, book_img, ca_id, ca_name, book_number, 
+    book_brief, book_introduce, collect_number, borrow_number, add_time
+  </sql>
+  
+   <!-- 按照借书降序排列，并实现分页展示功能 -->
+     <select id="selectByLimit" resultMap="BaseResultMap"
+         parameterType="java.lang.Integer">
+         select
+        <if test="distinct" >
+      	distinct
+    	</if>
+    	<include refid="Base_Column_List" />
+    	from books
+    	<if test="_parameter != null" >
+      	<include refid="Example_Where_Clause" />
+    	</if>
+         order by borrow_number DESC 
+     </select>
+   <!-- 按照时间降序排列，并实现分页展示功能 -->
+     <select id="selectBytime" resultMap="BaseResultMap"
+         parameterType="java.lang.Integer">
+         select
+        <if test="distinct" >
+      	distinct
+    	</if>
+    	<include refid="Base_Column_List" />
+    	from books
+    	<if test="_parameter != null" >
+      	<include refid="Example_Where_Clause" />
+    	</if>
+         order by add_time DESC 
+     </select>
+
+  <select id="selectByCaid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from books
+    where ca_id = #{caId,jdbcType=INTEGER}
+    order by RAND() limit 0,3
+  </select>  
+  
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.example.demo.po.BooksExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from books
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from books
+    where book_id = #{bookId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from books
+    where book_id = #{bookId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.example.demo.po.BooksExample" >
+    delete from books
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.demo.po.Books" >
+    insert into books (book_id, book_name, book_author, 
+      book_press, book_img, ca_id, 
+      ca_name, book_number, book_brief, 
+      book_introduce, collect_number, borrow_number, 
+      add_time)
+    values (#{bookId,jdbcType=INTEGER}, #{bookName,jdbcType=VARCHAR}, #{bookAuthor,jdbcType=VARCHAR}, 
+      #{bookPress,jdbcType=VARCHAR}, #{bookImg,jdbcType=VARCHAR}, #{caId,jdbcType=INTEGER}, 
+      #{caName,jdbcType=VARCHAR}, #{bookNumber,jdbcType=INTEGER}, #{bookBrief,jdbcType=VARCHAR}, 
+      #{bookIntroduce,jdbcType=VARCHAR}, #{collectNumber,jdbcType=INTEGER}, #{borrowNumber,jdbcType=INTEGER}, 
+      #{addTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.demo.po.Books" >
+    insert into books
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bookId != null" >
+        book_id,
+      </if>
+      <if test="bookName != null" >
+        book_name,
+      </if>
+      <if test="bookAuthor != null" >
+        book_author,
+      </if>
+      <if test="bookPress != null" >
+        book_press,
+      </if>
+      <if test="bookImg != null" >
+        book_img,
+      </if>
+      <if test="caId != null" >
+        ca_id,
+      </if>
+      <if test="caName != null" >
+        ca_name,
+      </if>
+      <if test="bookNumber != null" >
+        book_number,
+      </if>
+      <if test="bookBrief != null" >
+        book_brief,
+      </if>
+      <if test="bookIntroduce != null" >
+        book_introduce,
+      </if>
+      <if test="collectNumber != null" >
+        collect_number,
+      </if>
+      <if test="borrowNumber != null" >
+        borrow_number,
+      </if>
+      <if test="addTime != null" >
+        add_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bookId != null" >
+        #{bookId,jdbcType=INTEGER},
+      </if>
+      <if test="bookName != null" >
+        #{bookName,jdbcType=VARCHAR},
+      </if>
+      <if test="bookAuthor != null" >
+        #{bookAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="bookPress != null" >
+        #{bookPress,jdbcType=VARCHAR},
+      </if>
+      <if test="bookImg != null" >
+        #{bookImg,jdbcType=VARCHAR},
+      </if>
+      <if test="caId != null" >
+        #{caId,jdbcType=INTEGER},
+      </if>
+      <if test="caName != null" >
+        #{caName,jdbcType=VARCHAR},
+      </if>
+      <if test="bookNumber != null" >
+        #{bookNumber,jdbcType=INTEGER},
+      </if>
+      <if test="bookBrief != null" >
+        #{bookBrief,jdbcType=VARCHAR},
+      </if>
+      <if test="bookIntroduce != null" >
+        #{bookIntroduce,jdbcType=VARCHAR},
+      </if>
+      <if test="collectNumber != null" >
+        #{collectNumber,jdbcType=INTEGER},
+      </if>
+      <if test="borrowNumber != null" >
+        #{borrowNumber,jdbcType=INTEGER},
+      </if>
+      <if test="addTime != null" >
+        #{addTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.demo.po.BooksExample" resultType="java.lang.Integer" >
+    select count(*) from books
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update books
+    <set >
+      <if test="record.bookId != null" >
+        book_id = #{record.bookId,jdbcType=INTEGER},
+      </if>
+      <if test="record.bookName != null" >
+        book_name = #{record.bookName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bookAuthor != null" >
+        book_author = #{record.bookAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bookPress != null" >
+        book_press = #{record.bookPress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bookImg != null" >
+        book_img = #{record.bookImg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.caId != null" >
+        ca_id = #{record.caId,jdbcType=INTEGER},
+      </if>
+      <if test="record.caName != null" >
+        ca_name = #{record.caName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bookNumber != null" >
+        book_number = #{record.bookNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.bookBrief != null" >
+        book_brief = #{record.bookBrief,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bookIntroduce != null" >
+        book_introduce = #{record.bookIntroduce,jdbcType=VARCHAR},
+      </if>
+      <if test="record.collectNumber != null" >
+        collect_number = #{record.collectNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.borrowNumber != null" >
+        borrow_number = #{record.borrowNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.addTime != null" >
+        add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update books
+    set book_id = #{record.bookId,jdbcType=INTEGER},
+      book_name = #{record.bookName,jdbcType=VARCHAR},
+      book_author = #{record.bookAuthor,jdbcType=VARCHAR},
+      book_press = #{record.bookPress,jdbcType=VARCHAR},
+      book_img = #{record.bookImg,jdbcType=VARCHAR},
+      ca_id = #{record.caId,jdbcType=INTEGER},
+      ca_name = #{record.caName,jdbcType=VARCHAR},
+      book_number = #{record.bookNumber,jdbcType=INTEGER},
+      book_brief = #{record.bookBrief,jdbcType=VARCHAR},
+      book_introduce = #{record.bookIntroduce,jdbcType=VARCHAR},
+      collect_number = #{record.collectNumber,jdbcType=INTEGER},
+      borrow_number = #{record.borrowNumber,jdbcType=INTEGER},
+      add_time = #{record.addTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.po.Books" >
+    update books
+    <set >
+      <if test="bookName != null" >
+        book_name = #{bookName,jdbcType=VARCHAR},
+      </if>
+      <if test="bookAuthor != null" >
+        book_author = #{bookAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="bookPress != null" >
+        book_press = #{bookPress,jdbcType=VARCHAR},
+      </if>
+      <if test="bookImg != null" >
+        book_img = #{bookImg,jdbcType=VARCHAR},
+      </if>
+      <if test="caId != null" >
+        ca_id = #{caId,jdbcType=INTEGER},
+      </if>
+      <if test="caName != null" >
+        ca_name = #{caName,jdbcType=VARCHAR},
+      </if>
+      <if test="bookNumber != null" >
+        book_number = #{bookNumber,jdbcType=INTEGER},
+      </if>
+      <if test="bookBrief != null" >
+        book_brief = #{bookBrief,jdbcType=VARCHAR},
+      </if>
+      <if test="bookIntroduce != null" >
+        book_introduce = #{bookIntroduce,jdbcType=VARCHAR},
+      </if>
+      <if test="collectNumber != null" >
+        collect_number = #{collectNumber,jdbcType=INTEGER},
+      </if>
+      <if test="borrowNumber != null" >
+        borrow_number = #{borrowNumber,jdbcType=INTEGER},
+      </if>
+      <if test="addTime != null" >
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where book_id = #{bookId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.po.Books" >
+    update books
+    set book_name = #{bookName,jdbcType=VARCHAR},
+      book_author = #{bookAuthor,jdbcType=VARCHAR},
+      book_press = #{bookPress,jdbcType=VARCHAR},
+      book_img = #{bookImg,jdbcType=VARCHAR},
+      ca_id = #{caId,jdbcType=INTEGER},
+      ca_name = #{caName,jdbcType=VARCHAR},
+      book_number = #{bookNumber,jdbcType=INTEGER},
+      book_brief = #{bookBrief,jdbcType=VARCHAR},
+      book_introduce = #{bookIntroduce,jdbcType=VARCHAR},
+      collect_number = #{collectNumber,jdbcType=INTEGER},
+      borrow_number = #{borrowNumber,jdbcType=INTEGER},
+      add_time = #{addTime,jdbcType=TIMESTAMP}
+    where book_id = #{bookId,jdbcType=INTEGER}
+  </update>
+</mapper>

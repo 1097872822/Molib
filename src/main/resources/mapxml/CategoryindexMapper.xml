@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.CategoryindexMapper" >
+  <resultMap id="BaseResultMap" type="com.example.demo.po.Categoryindex" >
+    <id column="ca_id" property="caId" jdbcType="INTEGER" />
+    <result column="ca_name" property="caName" jdbcType="VARCHAR" />
+    <result column="isActive" property="isactive" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ca_id, ca_name, isActive
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.example.demo.po.CategoryindexExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from categoryindex
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from categoryindex
+    where ca_id = #{caId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from categoryindex
+    where ca_id = #{caId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.example.demo.po.CategoryindexExample" >
+    delete from categoryindex
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.demo.po.Categoryindex" >
+    insert into categoryindex (ca_id, ca_name, isActive
+      )
+    values (#{caId,jdbcType=INTEGER}, #{caName,jdbcType=VARCHAR}, #{isactive,jdbcType=BIT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.demo.po.Categoryindex" >
+    insert into categoryindex
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="caId != null" >
+        ca_id,
+      </if>
+      <if test="caName != null" >
+        ca_name,
+      </if>
+      <if test="isactive != null" >
+        isActive,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="caId != null" >
+        #{caId,jdbcType=INTEGER},
+      </if>
+      <if test="caName != null" >
+        #{caName,jdbcType=VARCHAR},
+      </if>
+      <if test="isactive != null" >
+        #{isactive,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.demo.po.CategoryindexExample" resultType="java.lang.Integer" >
+    select count(*) from categoryindex
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update categoryindex
+    <set >
+      <if test="record.caId != null" >
+        ca_id = #{record.caId,jdbcType=INTEGER},
+      </if>
+      <if test="record.caName != null" >
+        ca_name = #{record.caName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isactive != null" >
+        isActive = #{record.isactive,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update categoryindex
+    set ca_id = #{record.caId,jdbcType=INTEGER},
+      ca_name = #{record.caName,jdbcType=VARCHAR},
+      isActive = #{record.isactive,jdbcType=BIT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.po.Categoryindex" >
+    update categoryindex
+    <set >
+      <if test="caName != null" >
+        ca_name = #{caName,jdbcType=VARCHAR},
+      </if>
+      <if test="isactive != null" >
+        isActive = #{isactive,jdbcType=BIT},
+      </if>
+    </set>
+    where ca_id = #{caId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.po.Categoryindex" >
+    update categoryindex
+    set ca_name = #{caName,jdbcType=VARCHAR},
+      isActive = #{isactive,jdbcType=BIT}
+    where ca_id = #{caId,jdbcType=INTEGER}
+  </update>
+</mapper>

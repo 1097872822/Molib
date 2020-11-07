@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.SwiperdatasMapper" >
+  <resultMap id="BaseResultMap" type="com.example.demo.po.Swiperdatas" >
+    <id column="sw_id" property="swId" jdbcType="INTEGER" />
+    <result column="sw_img" property="swImg" jdbcType="VARCHAR" />
+    <result column="open_type" property="openType" jdbcType="VARCHAR" />
+    <result column="book_id" property="bookId" jdbcType="INTEGER" />
+    <result column="navigato_url" property="navigatoUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    sw_id, sw_img, open_type, book_id, navigato_url
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.example.demo.po.SwiperdatasExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from swiperdatas
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from swiperdatas
+    where sw_id = #{swId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from swiperdatas
+    where sw_id = #{swId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.example.demo.po.SwiperdatasExample" >
+    delete from swiperdatas
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.demo.po.Swiperdatas" >
+    insert into swiperdatas (sw_id, sw_img, open_type, 
+      book_id, navigato_url)
+    values (#{swId,jdbcType=INTEGER}, #{swImg,jdbcType=VARCHAR}, #{openType,jdbcType=VARCHAR}, 
+      #{bookId,jdbcType=INTEGER}, #{navigatoUrl,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.demo.po.Swiperdatas" >
+    insert into swiperdatas
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="swId != null" >
+        sw_id,
+      </if>
+      <if test="swImg != null" >
+        sw_img,
+      </if>
+      <if test="openType != null" >
+        open_type,
+      </if>
+      <if test="bookId != null" >
+        book_id,
+      </if>
+      <if test="navigatoUrl != null" >
+        navigato_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="swId != null" >
+        #{swId,jdbcType=INTEGER},
+      </if>
+      <if test="swImg != null" >
+        #{swImg,jdbcType=VARCHAR},
+      </if>
+      <if test="openType != null" >
+        #{openType,jdbcType=VARCHAR},
+      </if>
+      <if test="bookId != null" >
+        #{bookId,jdbcType=INTEGER},
+      </if>
+      <if test="navigatoUrl != null" >
+        #{navigatoUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.demo.po.SwiperdatasExample" resultType="java.lang.Integer" >
+    select count(*) from swiperdatas
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update swiperdatas
+    <set >
+      <if test="record.swId != null" >
+        sw_id = #{record.swId,jdbcType=INTEGER},
+      </if>
+      <if test="record.swImg != null" >
+        sw_img = #{record.swImg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.openType != null" >
+        open_type = #{record.openType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bookId != null" >
+        book_id = #{record.bookId,jdbcType=INTEGER},
+      </if>
+      <if test="record.navigatoUrl != null" >
+        navigato_url = #{record.navigatoUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update swiperdatas
+    set sw_id = #{record.swId,jdbcType=INTEGER},
+      sw_img = #{record.swImg,jdbcType=VARCHAR},
+      open_type = #{record.openType,jdbcType=VARCHAR},
+      book_id = #{record.bookId,jdbcType=INTEGER},
+      navigato_url = #{record.navigatoUrl,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.po.Swiperdatas" >
+    update swiperdatas
+    <set >
+      <if test="swImg != null" >
+        sw_img = #{swImg,jdbcType=VARCHAR},
+      </if>
+      <if test="openType != null" >
+        open_type = #{openType,jdbcType=VARCHAR},
+      </if>
+      <if test="bookId != null" >
+        book_id = #{bookId,jdbcType=INTEGER},
+      </if>
+      <if test="navigatoUrl != null" >
+        navigato_url = #{navigatoUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where sw_id = #{swId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.po.Swiperdatas" >
+    update swiperdatas
+    set sw_img = #{swImg,jdbcType=VARCHAR},
+      open_type = #{openType,jdbcType=VARCHAR},
+      book_id = #{bookId,jdbcType=INTEGER},
+      navigato_url = #{navigatoUrl,jdbcType=VARCHAR}
+    where sw_id = #{swId,jdbcType=INTEGER}
+  </update>
+</mapper>
