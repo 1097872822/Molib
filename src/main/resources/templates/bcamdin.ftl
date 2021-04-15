@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>移动图书馆后台管理系统</title>
+<title>共享图书馆后台管理系统</title>
 <!-- Tell the browser to be responsive to screen width -->
 <meta
 	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
@@ -48,8 +48,8 @@
 
 		<header class="main-header">
 			<!-- Logo -->
-			<a href="/" class="logo"> <span class="logo-mini"><b>移动图书馆</b></span>
-				<span class="logo-lg"><b>移动图书馆</b>后台</span>
+			<a href="/" class="logo"> <span class="logo-mini"><b>共享图书馆</b></span>
+				<span class="logo-lg"><b>共享图书馆</b>后台</span>
 			</a>
 			<!-- Header Navbar: style can be found in header.less -->
 			
@@ -89,7 +89,7 @@
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
 				<h1>
-					移动图书馆 <small>后台管理系统</small>
+					共享图书馆 <small>后台管理系统</small>
 				</h1>
 				
 			</section>

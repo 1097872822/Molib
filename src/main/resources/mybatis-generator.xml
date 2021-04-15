@@ -10,7 +10,7 @@
 		</commentGenerator>
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
 			connectionURL="jdbc:mysql://localhost:3306/molib?serverTimezone=GMT" userId="root"
-			password="123456">
+			password="root">
 		</jdbcConnection>
 
 		<javaTypeResolver>

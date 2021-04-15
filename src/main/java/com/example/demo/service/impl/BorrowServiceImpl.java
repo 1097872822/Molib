@@ -80,7 +80,7 @@ private String from;
 		// TODO Auto-generated method stub
 		MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper helper = null;
-		String subject = "移动图书馆书目查询系统借阅到期提醒";
+		String subject = "共享图书馆书目查询系统借阅到期提醒";
 		String context = "<h3>您所借阅的书《" + bookname + " 》  ，借阅时间将至，请记得归还!</h3>";
 		try {
 			helper = new MimeMessageHelper(message, true);

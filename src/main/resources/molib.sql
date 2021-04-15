@@ -338,8 +338,8 @@ CREATE TABLE `swiperdatas`  (
 -- ----------------------------
 -- Records of swiperdatas
 -- ----------------------------
-INSERT INTO `swiperdatas` VALUES (1, 'https://wyl-1300435080.cos.ap-chengdu.myqcloud.com/1585718348072.jpg', 'navigate', 3, '/pages/book_detail/index?bookId=3');
-INSERT INTO `swiperdatas` VALUES (2, 'https://wyl-1300435080.cos.ap-chengdu.myqcloud.com/1585718513647.jpg', 'navigate', 4, '/pages/book_detail/index?bookId=4');
+INSERT INTO `swiperdatas` VALUES (1, 'https://blogrrw.oss-cn-shenzhen.aliyuncs.com/bloguse/20210414144228.jpg', 'navigate', 3, '/pages/book_detail/index?bookId=3');
+INSERT INTO `swiperdatas` VALUES (2, 'https://blogrrw.oss-cn-shenzhen.aliyuncs.com/bloguse/20210414144729.jpg', 'navigate', 4, '/pages/book_detail/index?bookId=4');
 
 -- ----------------------------
 -- Table structure for videos
